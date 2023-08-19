@@ -30,6 +30,10 @@ $ docker compose exec app php artisan key:generate
 $ docker compose exec app php artisan storage:link
 $ docker compose exec app chmod -R 777 storage bootstrap/cache
 $ docker compose exec app php artisan migrate
+
+# Laravel Breeze で React、TypeScript、Inertia を使うので追加コマンド
+$ docker compose exec app npm install
+$ docker compose exec app npm run dev
 ```
 
 http://localhost

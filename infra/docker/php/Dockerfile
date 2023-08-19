@@ -1,5 +1,7 @@
 FROM php:8.2-fpm-bullseye AS base
 
+EXPOSE 5173
+
 WORKDIR /workspace
 
 # timezone environment
@@ -22,6 +24,10 @@ RUN apt-get update \
     libzip-dev \
     libicu-dev \
     libonig-dev \
+    nodejs \
+    npm \
+#   && npm install n -g && n 18.17.1 \
+  && npm install n -g && n 16.20 \
   && apt-get clean \
   && rm -rf /var/lib/apt/lists/* \
   && locale-gen en_US.UTF-8 \
