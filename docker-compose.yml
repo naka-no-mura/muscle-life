@@ -14,7 +14,7 @@ services:
     build:
       context: .
       dockerfile: ./infra/docker/php/Dockerfile
-      target: ${APP_BUILD_TARGET}
+      target: ${APP_BUILD_TARGET:-development-xdebug}
     ports:
       - 5173:5173
     volumes:
@@ -33,11 +33,11 @@ services:
       - LOG_CHANNEL=${LOG_CHANNEL:-stderr}
       - LOG_STDERR_FORMATTER=${LOG_STDERR_FORMATTER:-Monolog\Formatter\JsonFormatter}
       - DB_CONNECTION=${DB_CONNECTION:-mysql}
-      - DB_HOST=${DB_HOST}
-      - DB_PORT=${DB_PORT}
-      - DB_DATABASE=${DB_DATABASE}
-      - DB_USERNAME=${DB_USERNAME}
-      - DB_PASSWORD=${DB_PASSWORD}
+      - DB_HOST=${DB_HOST:-db}
+      - DB_PORT=${DB_PORT:-3306}
+      - DB_DATABASE=${DB_DATABASE:-laravel}
+      - DB_USERNAME=${DB_USERNAME:-phper}
+      - DB_PASSWORD=${DB_PASSWORD:-secret}
 
   web:
     build:
@@ -74,10 +74,10 @@ services:
         volume:
           nocopy: true
     environment:
-      - MYSQL_DATABASE=${DB_DATABASE}
-      - MYSQL_USER=${DB_USERNAME}
-      - MYSQL_PASSWORD=${DB_PASSWORD}
-      - MYSQL_ROOT_PASSWORD=${DB_PASSWORD}
+      - MYSQL_DATABASE=${DB_DATABASE:-laravel}
+      - MYSQL_USER=${DB_USERNAME:-phper}
+      - MYSQL_PASSWORD=${DB_PASSWORD:-secret}
+      - MYSQL_ROOT_PASSWORD=${DB_PASSWORD:-secret}
 
   mailpit:
     image: axllent/mailpit
@@ -92,9 +92,9 @@ services:
       - .env
     image: phpmyadmin/phpmyadmin
     environment:
-      - PMA_HOST=${DB_HOST}
-      - PMA_USER=${DB_USERNAME}
-      - PMA_PASSWORD=${DB_PASSWORD}
+      - PMA_HOST=${DB_HOST:-db}
+      - PMA_USER=${DB_USERNAME:-phper}
+      - PMA_PASSWORD=${DB_PASSWORD:-secret}
     ports:
       - 8080:80
     volumes:
