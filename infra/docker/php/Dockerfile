@@ -44,6 +44,8 @@ FROM base AS development
 
 COPY ./infra/docker/php/php.development.ini /usr/local/etc/php/php.ini
 
+FROM development AS development-xdebug
+
 RUN pecl install xdebug && \
   docker-php-ext-enable xdebug
 
