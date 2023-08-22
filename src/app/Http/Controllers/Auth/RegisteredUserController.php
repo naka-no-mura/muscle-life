@@ -4,10 +4,12 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Register\PreRegisterEmailVerificationRequest;
+use App\Http\Requests\Register\VerifyAuthCodeRequest;
 use App\Mail\PreRegisterEmailVerification;
 use App\Models\EmailVerification;
 use App\Models\User;
 use App\Providers\RouteServiceProvider;
+use Carbon\Carbon;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -41,10 +43,35 @@ class RegisteredUserController extends Controller
             }
         }
 
+        // 有効期限は1時間
+        $dt = (new Carbon('+ 1 hour'));
+        $expiration_datetime = (new Carbon('+ 1 hour'))->format('Y/m/d H:i');
+
+        $emailVerification = new EmailVerification();
+        $emailVerification->auth_code = $auth_code;
+        $emailVerification->email     = $request->email;
+        $emailVerification->expire_at = $dt;
+        $emailVerification->save();
+
         // 認証コードをメール送信
-        Mail::to($request->email)->send(new PreRegisterEmailVerification($auth_code));
+        Mail::to($request->email)->send(new PreRegisterEmailVerification($auth_code, $expiration_datetime));
 
         return Inertia::render('Auth/AuthCode');
+    }
+
+    /**
+     * 認証コードの有効性確認
+     *
+     * @return Response
+     */
+    public function verifyAuthCode(VerifyAuthCodeRequest $request): Response
+    {
+        // 使用済みにする
+        $emailVerification = EmailVerification::where('auth_code', $request->auth_code)->first();
+        $emailVerification->is_used = 1;
+        $emailVerification->save();
+
+        return Inertia::render('Auth/Register');
     }
 
     /**

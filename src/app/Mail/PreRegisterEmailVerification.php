@@ -17,10 +17,10 @@ class PreRegisterEmailVerification extends Mailable
     /**
      * Create a new message instance.
      */
-    public function __construct(public int $auth_code)
-    {
-        //
-    }
+    public function __construct(
+        public int $auth_code,
+        public string $expiration_datetime
+    ) {}
 
     /**
      * Get the message envelope.

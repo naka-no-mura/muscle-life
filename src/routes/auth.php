@@ -15,6 +15,9 @@ Route::middleware('guest')->group(function () {
     Route::post('send-auth-code', [RegisteredUserController::class, 'preRegisterEmailVerification'])
                 ->name('send.auth.code');
 
+    Route::post('verify-auth-code', [RegisteredUserController::class, 'verifyAuthCode'])
+                ->name('verify.auth.code');
+
     Route::get('register', [RegisteredUserController::class, 'create'])
                 ->name('register');
 

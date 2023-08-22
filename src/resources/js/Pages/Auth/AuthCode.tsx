@@ -8,13 +8,13 @@ import { Head, Link, useForm } from '@inertiajs/react';
 
 export default function Register() {
     const { data, setData, post, processing, errors, reset } = useForm({
-        authCode: '',
+        auth_code: '',
     });
 
     const submit: FormEventHandler = (e) => {
         e.preventDefault();
 
-        post(route('register'));
+        post(route('verify.auth.code'));
     };
 
     return (
@@ -23,20 +23,20 @@ export default function Register() {
 
             <form onSubmit={submit}>
                 <div>
-                    <InputLabel htmlFor="number" value="AuthCode" />
+                    <InputLabel htmlFor="number" value="認証コード" />
 
                     <TextInput
-                        id="authCode"
-                        name="authCode"
-                        value={data.authCode}
+                        id="auth_code"
+                        name="auth_code"
+                        value={data.auth_code}
                         className="mt-1 block w-full"
-                        autoComplete="authCode"
+                        autoComplete="auth_code"
                         isFocused={true}
-                        onChange={(e) => setData('authCode', e.target.value)}
+                        onChange={(e) => setData('auth_code', e.target.value)}
                         required
                     />
 
-                    <InputError message={errors.authCode} className="mt-2" />
+                    <InputError message={errors.auth_code} className="mt-2" />
                 </div>
             </form>
         </GuestLayout>

@@ -16,6 +16,7 @@ return new class extends Migration
             $table->integer('auth_code')->unique(); // 6桁の認証コード
             $table->string('email', 255);
             $table->tinyInteger('is_used')->default(0);
+            $table->timestamp('expire_at');
             $table->timestamps();
         });
     }
