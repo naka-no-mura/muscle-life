@@ -35,10 +35,9 @@ class RegisteredUserController extends Controller
 
         while ($auth_code === null) {
             $tmp_auth_code = (int)str_pad(mt_rand(0, 999999), 6, 0, STR_PAD_LEFT);
-            $count = EmailVerification::where('auth_code', $tmp_auth_code)->count();
 
             // ダブっていなければ認証コードとして採用
-            if ($count == 0) {
+            if (!$is_existence = EmailVerification::where('auth_code', $tmp_auth_code)->exists()) {
                 $auth_code = $tmp_auth_code;
             }
         }
