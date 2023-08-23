@@ -37,12 +37,12 @@ class VerifyAuthCodeRequest extends FormRequest
                     if ($emailVerification) {
                         // 使用済みか
                         if ($emailVerification->is_used === 1) {
-                            $fail("The {$attribute} is invalid.");
+                            $fail('この認証コードはすでに利用されています。発行しなおしてください。');
                         }
 
                         // 有効期限切れか
                         if ((Carbon::now())->gt($emailVerification->expire_at)) {
-                            $fail("The {$attribute} is expired.");
+                            $fail('認証コードが有効期限切れです。発行しなおしてください。');
                         }
                     }
                 },
