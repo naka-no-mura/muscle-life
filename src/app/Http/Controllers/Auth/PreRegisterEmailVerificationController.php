@@ -35,7 +35,7 @@ class PreRegisterEmailVerificationController extends Controller
         $auth_code = null;
 
         while ($auth_code === null) {
-            $tmp_auth_code = (int)str_pad(mt_rand(0, 999999), 6, 0, STR_PAD_LEFT);
+            $tmp_auth_code = str_pad(mt_rand(0, 999999), 6, 0, STR_PAD_LEFT);
 
             // ダブっていなければ認証コードとして採用
             if (!$is_existence = EmailVerification::where('auth_code', $tmp_auth_code)->exists()) {
@@ -70,6 +70,8 @@ class PreRegisterEmailVerificationController extends Controller
         $emailVerification->is_used = 1;
         $emailVerification->save();
 
-        return Inertia::render('Auth/Register');
+        return Inertia::render('Auth/Register', [
+            'email' => $emailVerification->email
+        ]);
     }
 }

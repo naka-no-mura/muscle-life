@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\Register;
 
+use App\Models\User;
 use Illuminate\Foundation\Http\FormRequest;
 
 class PreRegisterEmailVerificationRequest extends FormRequest
@@ -22,7 +23,7 @@ class PreRegisterEmailVerificationRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'email' => ['required', 'string', 'email', 'unique:email_verifications,email']
+            'email' => ['required', 'string', 'email', 'max:255', 'unique:' . User::class]
         ];
     }
 }

@@ -10,6 +10,13 @@ use Illuminate\Foundation\Http\FormRequest;
 class VerifyAuthCodeRequest extends FormRequest
 {
     /**
+     * バリデーション失敗時に、ユーザーをリダイレクトするルート
+     *
+     * @var string
+     */
+    protected $redirectRoute = 'send.auth.code';
+
+    /**
      * Determine if the user is authorized to make this request.
      */
     public function authorize(): bool
