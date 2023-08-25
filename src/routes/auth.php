@@ -7,11 +7,21 @@ use App\Http\Controllers\Auth\EmailVerificationPromptController;
 use App\Http\Controllers\Auth\NewPasswordController;
 use App\Http\Controllers\Auth\PasswordController;
 use App\Http\Controllers\Auth\PasswordResetLinkController;
+use App\Http\Controllers\Auth\PreRegisterEmailVerificationController;
 use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\Auth\VerifyEmailController;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware('guest')->group(function () {
+    Route::get('send-auth-code', [PreRegisterEmailVerificationController::class, 'create'])
+                ->name('send.auth.code');
+
+    Route::post('send-auth-code', [PreRegisterEmailVerificationController::class, 'store'])
+                ->name('send.auth.code');
+
+    Route::post('verify-auth-code', [PreRegisterEmailVerificationController::class, 'update'])
+                ->name('verify.auth.code');
+
     Route::get('register', [RegisteredUserController::class, 'create'])
                 ->name('register');
 

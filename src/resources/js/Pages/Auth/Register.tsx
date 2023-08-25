@@ -4,14 +4,17 @@ import InputError from '@/Components/InputError';
 import InputLabel from '@/Components/InputLabel';
 import PrimaryButton from '@/Components/PrimaryButton';
 import TextInput from '@/Components/TextInput';
-import { Head, Link, useForm } from '@inertiajs/react';
+import { Head, Link, useForm, usePage } from '@inertiajs/react';
 
 export default function Register() {
+
+    const authenticatedEmail = usePage().props.email
+
     const { data, setData, post, processing, errors, reset } = useForm({
-        name: '',
-        email: '',
+        email: authenticatedEmail,
         password: '',
         password_confirmation: '',
+        gender: ''
     });
 
     useEffect(() => {
@@ -31,23 +34,6 @@ export default function Register() {
             <Head title="Register" />
 
             <form onSubmit={submit}>
-                <div>
-                    <InputLabel htmlFor="name" value="Name" />
-
-                    <TextInput
-                        id="name"
-                        name="name"
-                        value={data.name}
-                        className="mt-1 block w-full"
-                        autoComplete="name"
-                        isFocused={true}
-                        onChange={(e) => setData('name', e.target.value)}
-                        required
-                    />
-
-                    <InputError message={errors.name} className="mt-2" />
-                </div>
-
                 <div className="mt-4">
                     <InputLabel htmlFor="email" value="Email" />
 
@@ -55,11 +41,12 @@ export default function Register() {
                         id="email"
                         type="email"
                         name="email"
-                        value={data.email}
+                        value={authenticatedEmail}
                         className="mt-1 block w-full"
                         autoComplete="username"
-                        onChange={(e) => setData('email', e.target.value)}
+                        // onChange={(e) => setData('email', e.target.value)}
                         required
+                        disabled
                     />
 
                     <InputError message={errors.email} className="mt-2" />
@@ -97,6 +84,39 @@ export default function Register() {
                     />
 
                     <InputError message={errors.password_confirmation} className="mt-2" />
+                </div>
+
+                <div className="mt-4">
+                    <InputLabel htmlFor="gender" value="性別" />
+
+                    <div>
+                        <p>
+                            <input
+                                id="gender-men"
+                                type="radio"
+                                name="gender"
+                                value="0"
+                                autoComplete="gender"
+                                onChange={(e) => setData('gender', e.target.value)}
+                                required
+                            />
+                            <label htmlFor="gender-men">男性</label>
+                        </p>
+                        <p>
+                            <input
+                                id="gender-women"
+                                type="radio"
+                                name="gender"
+                                value="1"
+                                autoComplete="gender"
+                                onChange={(e) => setData('gender', e.target.value)}
+                                required
+                            />
+                            <label htmlFor="gender-women">女性</label>
+                        </p>
+                    </div>
+
+                    <InputError message={errors.gender} className="mt-2" />
                 </div>
 
                 <div className="flex items-center justify-end mt-4">
