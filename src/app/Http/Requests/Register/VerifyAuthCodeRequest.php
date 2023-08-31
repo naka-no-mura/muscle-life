@@ -14,7 +14,7 @@ class VerifyAuthCodeRequest extends FormRequest
      *
      * @var string
      */
-    protected $redirectRoute = 'send.auth.code';
+    protected $redirectRoute = 'auth.code';
 
     /**
      * Determine if the user is authorized to make this request.

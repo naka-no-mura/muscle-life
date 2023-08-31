@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::middleware('guest')->group(function () {
     Route::get('send-auth-code', [PreRegisterEmailVerificationController::class, 'create'])
-                ->name('send.auth.code');
+                ->name('auth.code');
 
     Route::post('send-auth-code', [PreRegisterEmailVerificationController::class, 'store'])
                 ->name('send.auth.code');
